@@ -2,6 +2,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import "./Register.scss";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 const Register = (props) => {
   const [email, setEmail] = useState();
@@ -27,7 +28,49 @@ const Register = (props) => {
     //   });
   }, []);
 
+  const isValidInput = () => {
+    if (!email) {
+      toast.error("Email không được để trống");
+      return false;
+    }
+
+    if (!phoneNumber) {
+      toast.error("PhoneNumber không được để trống");
+      return false;
+    }
+
+    if (!phoneNumber) {
+      toast.error("PhoneNumber không được để trống");
+      return false;
+    }
+
+    if (!username) {
+      toast.error("Username không được để trống");
+      return false;
+    }
+
+    if (!password) {
+      toast.error("Password không được để trống");
+      return false;
+    }
+
+    if (password != confirmPassword) {
+      toast.error("Password không trùng khớp");
+      return false;
+    }
+
+    let regx = /\S+@\S+\.\S+/;
+    if (!regx.test(email)) {
+      toast.error("Email không đúng định dạng");
+      return false;
+    }
+
+    return true;
+  };
+
   const handleRegister = () => {
+    let check = isValidInput();
+
     let userData = {
       email: email,
       phoneNumber: phoneNumber,
@@ -112,7 +155,11 @@ const Register = (props) => {
 
             <hr />
             <div className="text-center">
-              <button className="btn btn-success" onClick={() => handleLogin()}>
+              <button
+                className="btn btn-success"
+                type="button"
+                onClick={() => handleLogin()}
+              >
                 Already've an accout. Login
               </button>
             </div>
