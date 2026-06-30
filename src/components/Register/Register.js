@@ -11,6 +11,16 @@ const Register = (props) => {
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
 
+  const defautValidInput = {
+    isValidEmail: true,
+    isValidPhoneNumber: true,
+    isValidUsername: true,
+    isValidPassword: true,
+    isValidConfimPassword: true,
+  };
+
+  const [checkValidInput, setCheckValidInput] = useState(defautValidInput);
+
   let history = useHistory();
 
   const handleLogin = () => {
@@ -19,7 +29,7 @@ const Register = (props) => {
 
   useEffect(() => {
     // axios
-    //   .get("http://localhost:8080/api/test-api")
+    //   .get("http://localhost:8080/api/v1/test-api")
     //   .then((data) => {
     //     console.log("check data axios: ", data);
     //   })
@@ -29,39 +39,42 @@ const Register = (props) => {
   }, []);
 
   const isValidInput = () => {
+    setCheckValidInput(defautValidInput);
+
     if (!email) {
       toast.error("Email không được để trống");
-      return false;
-    }
-
-    if (!phoneNumber) {
-      toast.error("PhoneNumber không được để trống");
-      return false;
-    }
-
-    if (!phoneNumber) {
-      toast.error("PhoneNumber không được để trống");
-      return false;
-    }
-
-    if (!username) {
-      toast.error("Username không được để trống");
-      return false;
-    }
-
-    if (!password) {
-      toast.error("Password không được để trống");
-      return false;
-    }
-
-    if (password != confirmPassword) {
-      toast.error("Password không trùng khớp");
+      setCheckValidInput({ ...defautValidInput, isValidEmail: false });
       return false;
     }
 
     let regx = /\S+@\S+\.\S+/;
     if (!regx.test(email)) {
       toast.error("Email không đúng định dạng");
+      setCheckValidInput({ ...defautValidInput, isValidEmail: false });
+      return false;
+    }
+
+    if (!phoneNumber) {
+      toast.error("PhoneNumber không được để trống");
+      setCheckValidInput({ ...defautValidInput, isValidPhoneNumber: false });
+      return false;
+    }
+
+    if (!username) {
+      toast.error("Username không được để trống");
+      setCheckValidInput({ ...defautValidInput, isValidUsername: false });
+      return false;
+    }
+
+    if (!password) {
+      toast.error("Password không được để trống");
+      setCheckValidInput({ ...defautValidInput, isValidPassword: false });
+      return false;
+    }
+
+    if (password != confirmPassword) {
+      toast.error("Password không trùng khớp");
+      setCheckValidInput({ ...defautValidInput, isValidConfimPassword: false });
       return false;
     }
 
@@ -71,14 +84,14 @@ const Register = (props) => {
   const handleRegister = () => {
     let check = isValidInput();
 
-    let userData = {
-      email: email,
-      phoneNumber: phoneNumber,
-      username: username,
-      password: password,
-      confirmPassword: confirmPassword,
-    };
-    console.log("check userData: ", userData);
+    if (check === true) {
+      axios.post("http://localhost:8080/api/v1/register", {
+        email: email,
+        phoneNumber: phoneNumber,
+        username: username,
+        password: password,
+      });
+    }
   };
 
   return (
@@ -95,11 +108,15 @@ const Register = (props) => {
 
           <div className="content-right  col-12 col-sm-5 d-flex flex-column gap-3 py-3">
             <div className="brand d-block d-sm-none">Do Quoc Huy</div>
-            <div className="form-group">
+            <div className="form-group ">
               <label>Email:</label>
               <input
                 type="text"
-                className="form-control"
+                className={
+                  checkValidInput.isValidEmail
+                    ? "form-control"
+                    : "form-control is-invalid"
+                }
                 placeholder="Email address "
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
@@ -109,7 +126,11 @@ const Register = (props) => {
               <label>Phone number:</label>
               <input
                 type="text"
-                className="form-control"
+                className={
+                  checkValidInput.isValidPhoneNumber
+                    ? "form-control"
+                    : "form-control is-invalid"
+                }
                 placeholder="Phone number "
                 value={phoneNumber}
                 onChange={(event) => setPhoneNumber(event.target.value)}
@@ -119,7 +140,11 @@ const Register = (props) => {
               <label>Username:</label>
               <input
                 type="text"
-                className="form-control"
+                className={
+                  checkValidInput.isValidUsername
+                    ? "form-control"
+                    : "form-control is-invalid"
+                }
                 placeholder="Username "
                 value={username}
                 onChange={(event) => setUsername(event.target.value)}
@@ -129,7 +154,11 @@ const Register = (props) => {
               <label>Password:</label>
               <input
                 type="password"
-                className="form-control"
+                className={
+                  checkValidInput.isValidPassword
+                    ? "form-control"
+                    : "form-control is-invalid"
+                }
                 placeholder="Password "
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
@@ -139,7 +168,11 @@ const Register = (props) => {
               <label>Re-enter password:</label>
               <input
                 type="password"
-                className="form-control"
+                className={
+                  checkValidInput.isValidConfimPassword
+                    ? "form-control"
+                    : "form-control is-invalid"
+                }
                 placeholder="RE-enter password "
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
