@@ -1,8 +1,8 @@
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import "./Register.scss";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { registerNewUser } from "../../services/userService.js";
 
 const Register = (props) => {
   const [email, setEmail] = useState();
@@ -81,16 +81,22 @@ const Register = (props) => {
     return true;
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     let check = isValidInput();
 
     if (check === true) {
-      axios.post("http://localhost:8080/api/v1/register", {
-        email: email,
-        phoneNumber: phoneNumber,
-        username: username,
-        password: password,
+      let response = await registerNewUser({
+        email,
+        phoneNumber,
+        username,
+        password,
       });
+      if (response.data && +response.data.EC === 0) {
+        toast.success(response.data.EM);
+        history.push("/login");
+      } else {
+        toast.error(response.data.EM);
+      }
     }
   };
 
