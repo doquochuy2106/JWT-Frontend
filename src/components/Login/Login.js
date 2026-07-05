@@ -37,7 +37,20 @@ const Login = (props) => {
 
     if (check == true) {
       let response = await LoginUser({ valueLogin, password });
-      console.log("check respone");
+      if (response && response.data && +response.data.EC === 0) {
+        toast.success(response.data.EM);
+
+        let data = {
+          isAuthenticated: true,
+          token: "fake token",
+        };
+
+        sessionStorage.setItem("account", JSON.stringify(data));
+
+        history.push("/users");
+      }
+      if (response && response.data && +response.data.EC !== 0)
+        toast.error(response.data.EM);
     }
   };
 
