@@ -48,6 +48,7 @@ const Login = (props) => {
         sessionStorage.setItem("account", JSON.stringify(data));
 
         history.push("/users");
+        window.location.reload();
       }
       if (response && response.data && +response.data.EC !== 0)
         toast.error(response.data.EM);
@@ -56,6 +57,12 @@ const Login = (props) => {
 
   const handleCreateNewAccount = () => {
     history.push("/register");
+  };
+
+  const handlePressEnter = async (event) => {
+    if (event.charCode === 13 && event.code === "Enter") {
+      await handleLogin();
+    }
   };
 
   return (
@@ -93,6 +100,9 @@ const Login = (props) => {
               placeholder="Password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
+              onKeyPress={(event) => {
+                handlePressEnter(event);
+              }}
             />
             <button className="btn btn-primary" onClick={() => handleLogin()}>
               Login
