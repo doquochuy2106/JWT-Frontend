@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Users from "./components/ManageUsers/Users";
 import { useEffect, useState } from "react";
 import _ from "lodash";
+import Approutes from "./routes/AppRoutes";
 
 function App() {
   const [account, setAccount] = useState({});
@@ -19,42 +20,28 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="app-container">
-        {account && !_.isEmpty(account) && account.isAuthenticated && <Nav />}
-        {/* <Nav /> */}
-        <Switch>
-          <Route path="/news">news</Route>
-          <Route path="/contact">contact</Route>
-          <Route path="/about">about</Route>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/users">
-            <Users />
-          </Route>
-          <Route path="/" exact>
-            home
-          </Route>
-          <Route path="*">404 not found</Route>
-        </Switch>
-      </div>
+    <>
+      <Router>
+        <div className="app-header">
+          <Nav />
+        </div>
+        <div className="app-container">
+          <Approutes />
+        </div>
 
-      <ToastContainer
-        position="bottom-center "
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
-    </Router>
+        <ToastContainer
+          position="bottom-center "
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+      </Router>
+    </>
   );
 }
 
