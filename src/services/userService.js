@@ -16,4 +16,8 @@ const LoginUser = (data) => {
   });
 };
 
-export { registerNewUser, LoginUser };
+const getAllUsers = () => {
+  return axios.get("http://localhost:8080/api/v1/users/read");
+};
+
+export { registerNewUser, LoginUser, getAllUsers };

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 const Nav = (props) => {
   const [show, setShow] = useState(true);
   let localtion = useLocation();
-  console.log("check location: ", localtion);
+
   useEffect(() => {
     let session = sessionStorage.getItem("account");
     if (localtion.pathname === "/login") {
