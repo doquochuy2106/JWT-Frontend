@@ -16,8 +16,10 @@ const LoginUser = (data) => {
   });
 };
 
-const getAllUsers = () => {
-  return axios.get("http://localhost:8080/api/v1/users/read");
+const getAllUsers = (page, limit) => {
+  return axios.get(
+    `http://localhost:8080/api/v1/users/read?page=${page}&limit=${limit}`,
+  );
 };
 
 export { registerNewUser, LoginUser, getAllUsers };
