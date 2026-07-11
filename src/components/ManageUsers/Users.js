@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import "./Users.scss";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
-import { getAllUsers } from "../../services/userService";
+import { getAllUsers, deleteUser } from "../../services/userService";
 import ReactPaginate from "react-paginate";
+import { toast } from "react-toastify";
+import ModalDelete from "./ModalDelete";
 
 const Users = (props) => {
   let history = useHistory();
@@ -11,6 +13,8 @@ const Users = (props) => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(2);
   const [totalPage, setTotalpage] = useState(1);
+  const [showModalDelete, setShowModalDelete] = useState(false);
+  const [dataModalDelete, setDataModalDelete] = useState();
 
   useEffect(() => {
     fetchUsers();
@@ -27,6 +31,27 @@ const Users = (props) => {
 
   const handlePageClick = (event) => {
     setPage(event.selected + 1);
+  };
+
+  const handleDelete = async (dataUser) => {
+    setShowModalDelete(true);
+    setDataModalDelete(dataUser);
+  };
+
+  const handleClose = () => {
+    setShowModalDelete(false);
+  };
+
+  const handleConfirmDeleteUser = async () => {
+    let response = await deleteUser(dataModalDelete);
+    console.log("check respone: ", response);
+    if (response && response.data.EC === 0) {
+      toast.success(response.data.EM);
+      fetchUsers();
+      setShowModalDelete(false);
+    } else {
+      toast.error(response.data.EM);
+    }
   };
 
   return (
@@ -66,8 +91,13 @@ const Users = (props) => {
                         <td>{item.username}</td>
                         <td>{item.Group ? item.Group.name : ""}</td>
                         <td>
-                          <button className="btn btn-warning">Edit</button>
-                          <button className="btn btn-danger">Delete</button>
+                          <button className="btn btn-warning mx-3">Edit</button>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => handleDelete(item)}
+                          >
+                            Delete
+                          </button>
                         </td>
                       </tr>
                     );
@@ -108,6 +138,12 @@ const Users = (props) => {
           )}
         </div>
       </div>
+      <ModalDelete
+        showModalDelete={showModalDelete}
+        handleClose={handleClose}
+        dataModalDelete={dataModalDelete}
+        handleConfirmDeleteUser={handleConfirmDeleteUser}
+      />
     </div>
   );
 };

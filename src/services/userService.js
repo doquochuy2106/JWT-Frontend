@@ -22,4 +22,11 @@ const getAllUsers = (page, limit) => {
   );
 };
 
-export { registerNewUser, LoginUser, getAllUsers };
+const deleteUser = (userData) => {
+  console.log("check id:", userData.id);
+  return axios.delete("http://localhost:8080/api/v1/users/delete", {
+    data: { id: userData.id },
+  });
+};
+
+export { registerNewUser, LoginUser, getAllUsers, deleteUser };
