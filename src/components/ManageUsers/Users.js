@@ -5,6 +5,7 @@ import { getAllUsers, deleteUser } from "../../services/userService";
 import ReactPaginate from "react-paginate";
 import { toast } from "react-toastify";
 import ModalDelete from "./ModalDelete";
+import ModalUser from "./ModalUser";
 
 const Users = (props) => {
   let history = useHistory();
@@ -42,6 +43,8 @@ const Users = (props) => {
     setShowModalDelete(false);
   };
 
+  const handleCreatNewUser = () => {};
+
   const handleConfirmDeleteUser = async () => {
     let response = await deleteUser(dataModalDelete);
     console.log("check respone: ", response);
@@ -63,7 +66,12 @@ const Users = (props) => {
           </div>
           <div className="actions">
             <button className="btn btn-success">Refresh</button>
-            <button className="btn btn-primary">Add New User</button>
+            <button
+              className="btn btn-primary"
+              onClick={() => handleCreatNewUser()}
+            >
+              Add New User
+            </button>
           </div>
         </div>
 
@@ -144,6 +152,8 @@ const Users = (props) => {
         dataModalDelete={dataModalDelete}
         handleConfirmDeleteUser={handleConfirmDeleteUser}
       />
+
+      <ModalUser title={"Create New User"} />
     </div>
   );
 };
