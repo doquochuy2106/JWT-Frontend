@@ -29,4 +29,8 @@ const deleteUser = (userData) => {
   });
 };
 
-export { registerNewUser, LoginUser, getAllUsers, deleteUser };
+const createUser = (data) => {
+  return axios.post("http://localhost:8080/api/v1/users/create", data);
+};
+
+export { registerNewUser, LoginUser, getAllUsers, deleteUser, createUser };

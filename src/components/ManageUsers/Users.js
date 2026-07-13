@@ -17,6 +17,8 @@ const Users = (props) => {
   const [showModalDelete, setShowModalDelete] = useState(false);
   const [dataModalDelete, setDataModalDelete] = useState();
 
+  const [showModalUser, setShowModalUser] = useState(false);
+
   useEffect(() => {
     fetchUsers();
   }, [page]);
@@ -43,7 +45,13 @@ const Users = (props) => {
     setShowModalDelete(false);
   };
 
-  const handleCreatNewUser = () => {};
+  const handleCreatNewUser = () => {
+    setShowModalUser(true);
+  };
+
+  const handleCloseModaluser = () => {
+    setShowModalUser(false);
+  };
 
   const handleConfirmDeleteUser = async () => {
     let response = await deleteUser(dataModalDelete);
@@ -153,7 +161,11 @@ const Users = (props) => {
         handleConfirmDeleteUser={handleConfirmDeleteUser}
       />
 
-      <ModalUser title={"Create New User"} />
+      <ModalUser
+        title={"Create New User"}
+        showModalUser={showModalUser}
+        handleCloseModaluser={handleCloseModaluser}
+      />
     </div>
   );
 };
