@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import { getGroups } from "../../services/groupService";
 import _ from "lodash";
-import { createUser } from "../../services/userService";
+import { createUser, updateUser } from "../../services/userService";
 
 import { toast } from "react-toastify";
 const ModalUser = (props) => {
@@ -85,6 +85,8 @@ const ModalUser = (props) => {
   };
 
   const checkInput = () => {
+    if (props.action === "UPDATE") return true;
+
     setCheckValidInput(defaultCheckvalidInput);
     let arr = ["email", "phone", "password", "group"];
     let check = true;
@@ -104,7 +106,10 @@ const ModalUser = (props) => {
   const handleSave = async () => {
     let check = checkInput();
     if (check === true) {
-      let response = await createUser(userData);
+      let response =
+        props.action === "CREATE"
+          ? await createUser(userData)
+          : await updateUser(userData);
       if (response && response.data && response.data.EC === 0) {
         toast.success(response.data.EM);
         setUserData({ ...defaultValue, group: groupUser[0].id });
