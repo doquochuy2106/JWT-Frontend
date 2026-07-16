@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from "../axios/axios";
 
 const getGroups = () => {
-  return axios.get("http://localhost:8080/api/v1/groups/read");
+  return axios.get("/api/v1/groups/read");
 };
 
 export { getGroups };

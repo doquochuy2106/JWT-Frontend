@@ -91,11 +91,11 @@ const Register = (props) => {
         username,
         password,
       });
-      if (response.data && +response.data.EC === 0) {
-        toast.success(response.data.EM);
+      if (response && +response.EC === 0) {
+        toast.success(response.EM);
         history.push("/login");
       } else {
-        toast.error(response.data.EM);
+        toast.error(response.EM);
       }
     }
   };

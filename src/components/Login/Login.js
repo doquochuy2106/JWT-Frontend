@@ -37,8 +37,8 @@ const Login = (props) => {
 
     if (check == true) {
       let response = await LoginUser({ valueLogin, password });
-      if (response && response.data && +response.data.EC === 0) {
-        toast.success(response.data.EM);
+      if (response && +response.EC === 0) {
+        toast.success(response.EM);
 
         let data = {
           isAuthenticated: true,
@@ -50,8 +50,7 @@ const Login = (props) => {
         history.push("/users");
         window.location.reload();
       }
-      if (response && response.data && +response.data.EC !== 0)
-        toast.error(response.data.EM);
+      if (response && +response.EC !== 0) toast.error(response.EM);
     }
   };
 
