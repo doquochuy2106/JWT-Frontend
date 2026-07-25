@@ -1,21 +1,16 @@
 import { NavLink, useLocation } from "react-router-dom/cjs/react-router-dom";
 import "./Nav.scss";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { UserContext } from "../../context/UserContext";
 
 const Nav = (props) => {
-  const [show, setShow] = useState(true);
   let localtion = useLocation();
 
-  useEffect(() => {
-    let session = sessionStorage.getItem("account");
-    if (localtion.pathname === "/login") {
-      setShow(false);
-    }
-  }, []);
+  const { user } = React.useContext(UserContext);
 
-  return (
-    <>
-      {show === true && (
+  if ((user && user.isAuthenticated === true) || localtion.pathname === "/") {
+    return (
+      <>
         <div className="topnav">
           <NavLink to="/" exact>
             Home
@@ -24,9 +19,11 @@ const Nav = (props) => {
           <NavLink to="/projects">Projects</NavLink>
           <NavLink to="/about">About</NavLink>
         </div>
-      )}
-    </>
-  );
+      </>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default Nav;

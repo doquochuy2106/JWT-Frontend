@@ -11,15 +11,6 @@ import Approutes from "./routes/AppRoutes";
 import { UserContext } from "./context/UserContext";
 
 function App() {
-  const [account, setAccount] = useState({});
-
-  useEffect(() => {
-    let session = sessionStorage.getItem("account");
-    if (session) {
-      setAccount(JSON.parse(session));
-    }
-  }, []);
-
   return (
     <>
       <Router>

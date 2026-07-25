@@ -58,12 +58,8 @@ const Login = (props) => {
           },
         };
 
-        sessionStorage.setItem("account", JSON.stringify(data));
-
         loginContext(data);
-
         history.push("/users");
-        // window.location.reload();
       }
       if (response && +response.EC !== 0) toast.error(response.EM);
     }
@@ -78,14 +74,6 @@ const Login = (props) => {
       await handleLogin();
     }
   };
-
-  useEffect(() => {
-    let session = sessionStorage.getItem("account");
-    if (session) {
-      history.push("/");
-      window.location.reload();
-    }
-  }, []);
 
   return (
     <div className="login-container px-3 px-sm-0 ">
