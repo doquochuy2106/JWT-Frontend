@@ -5,9 +5,10 @@ import Register from "./components/Register/Register";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Users from "./components/ManageUsers/Users";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import Approutes from "./routes/AppRoutes";
+import { UserContext } from "./context/UserContext";
 
 function App() {
   const [account, setAccount] = useState({});

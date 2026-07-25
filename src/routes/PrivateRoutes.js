@@ -1,7 +1,10 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Route, useHistory } from "react-router-dom/cjs/react-router-dom";
+import { UserContext } from "../context/UserContext";
 
 const PrivateRoute = (props) => {
+  const { user } = React.useContext(UserContext);
+  console.log("check userCOntex:  ", user);
   let history = useHistory();
   useEffect(() => {
     let session = sessionStorage.getItem("account");
@@ -10,6 +13,7 @@ const PrivateRoute = (props) => {
       window.location.reload();
     }
   }, []);
+
   return (
     <>
       <Route path={props.path} component={props.component} />

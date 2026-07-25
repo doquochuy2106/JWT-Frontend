@@ -1,9 +1,12 @@
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import "./Login.scss";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { LoginUser } from "../../services/userService";
+import { UserContext } from "../../context/UserContext";
 const Login = (props) => {
+  const { loginContext } = React.useContext(UserContext);
+
   const [valueLogin, setValueLogin] = useState("");
   const [password, setPassword] = useState("");
 
@@ -40,15 +43,27 @@ const Login = (props) => {
       if (response && +response.EC === 0) {
         toast.success(response.EM);
 
+        let groups = response.DT.Group;
+        let email = response.DT.email;
+        let username = response.DT.username;
+        let token = response.DT.access_token;
+
         let data = {
           isAuthenticated: true,
-          token: "fake token",
+          token: token,
+          account: {
+            groups,
+            email,
+            username,
+          },
         };
 
         sessionStorage.setItem("account", JSON.stringify(data));
 
+        loginContext(data);
+
         history.push("/users");
-        window.location.reload();
+        // window.location.reload();
       }
       if (response && +response.EC !== 0) toast.error(response.EM);
     }
