@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 import "font-awesome/css/font-awesome.min.css";
 import { UserProvider } from "./context/UserContext";
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 
 ReactDOM.render(
   <React.StrictMode>

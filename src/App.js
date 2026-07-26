@@ -9,18 +9,38 @@ import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import Approutes from "./routes/AppRoutes";
 import { UserContext } from "./context/UserContext";
+import { Rings } from "react-loader-spinner";
+import "./App.scss";
 
 function App() {
+  const { user } = React.useContext(UserContext);
   return (
     <>
-      <Router>
-        <div className="app-header">
-          <Nav />
-        </div>
-        <div className="app-container">
-          <Approutes />
-        </div>
-
+      <div>
+        <Router>
+          {user && user.isLoading ? (
+            <>
+              <div className="loading-container">
+                <Rings
+                  height="100"
+                  width="100"
+                  color="#1877f2"
+                  ariaLabel="loading"
+                />
+                <div>Loading data...</div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="app-header">
+                <Nav />
+              </div>
+              <div className="app-container">
+                <Approutes />
+              </div>
+            </>
+          )}
+        </Router>
         <ToastContainer
           position="bottom-center "
           autoClose={5000}
@@ -32,7 +52,7 @@ function App() {
           draggable
           pauseOnHover
         />
-      </Router>
+      </div>
     </>
   );
 }

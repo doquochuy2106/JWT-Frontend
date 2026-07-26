@@ -11,8 +11,6 @@ import { UserContext } from "../../context/UserContext";
 const Users = (props) => {
   let history = useHistory();
 
-  const { loginContext } = React.useContext(UserContext);
-
   const [listUsers, setListUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(2);

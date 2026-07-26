@@ -35,7 +35,7 @@ instance.interceptors.response.use(
       //authenticated
       case 401: {
         toast.error("Unauthorized the user, Please Login...");
-        return Promise.reject(err);
+        return err.response.data;
       }
 
       //forbidden (permission related issues)
